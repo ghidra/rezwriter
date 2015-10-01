@@ -2,7 +2,7 @@ t={};
 t.canvas = {};
 t.context={};
 t.console={};
-t.letters=[];
+t.yped="";
 
 t.settings={
 	'step':10,
@@ -37,13 +37,13 @@ delay = 20;
 */
 t.keycodes={"tab":9};
 t.yping=function(e){
-	alert('typing');
 	//if(e.keyCode === this.keycodes["tab"]){
-	//t.letters.push(e.keyCode)
+    value = String.fromCharCode(e.keyCode)
+	t.yped+=value;
 	//e.preventDefault();
 		//i might want to pass in different mouse position based on if it is going to overlap wrong
 	//}
-	//t.console.innerHTML=t.letters;
+	t.console.innerHTML=t.yped;
 }
 
 function init(){
@@ -52,11 +52,8 @@ function init(){
 	t.canvas = document.getElementById("canvas");
 	t.context = t.canvas.getContext("2d");
 	t.console = document.getElementById("console");
-	//t.canvas.tabIndex = 1000;//this forces the canvas to get the keyboard events
-	//t.canvas.onkeydown = function(e){t.yping(e);};
-	t.canvas.onkeydown = function(e){alert("fuck");};
-	//draft.add_node("none","node1");
-	//draft.add_node("none","node2",100,100);
+	t.canvas.tabIndex = 1000;//this forces the canvas to get the keyboard events
+	t.canvas.onkeydown = function(e){t.yping(e);};
 }
 
 
