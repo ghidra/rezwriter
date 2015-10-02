@@ -3,11 +3,12 @@ t.canvas = {};
 t.context={};
 t.console={};
 t.yped="";
+t.setting={};//these are the letters that are animating
 
 t.settings={
-	'step':10,
-	'steps':50,
-	'delay':20
+    'step':10,
+    'steps':50,
+    'delay':20
 };
 
 /*var can, ctx, step = 10, steps = 50;
@@ -39,21 +40,31 @@ t.keycodes={"tab":9};
 t.yping=function(e){
 	//if(e.keyCode === this.keycodes["tab"]){
     value = String.fromCharCode(e.keyCode)
-	t.yped+=value;
-	//e.preventDefault();
-		//i might want to pass in different mouse position based on if it is going to overlap wrong
-	//}
-	t.console.innerHTML=t.yped;
+    t.yped+=value;
+    //e.preventDefault();
+    	//i might want to pass in different mouse position based on if it is going to overlap wrong
+    //}
+    t.console.innerHTML=t.yped;
+}
+
+t.ick=function(args){
+    console.log("ticking");
+    //requestAnimFrame(t.ick);
+    //callback(args);
 }
 
 function init(){
 	//draft.init();
 
-	t.canvas = document.getElementById("canvas");
-	t.context = t.canvas.getContext("2d");
-	t.console = document.getElementById("console");
-	t.canvas.tabIndex = 1000;//this forces the canvas to get the keyboard events
-	t.canvas.onkeydown = function(e){t.yping(e);};
+    t.canvas = document.getElementById("canvas");
+    t.context = t.canvas.getContext("2d");
+    t.console = document.getElementById("console");
+    t.canvas.tabIndex = 1000;//this forces the canvas to get the keyboard events
+    t.canvas.onkeydown = function(e){t.yping(e);};
+
+    //console.log(t.ick);
+    rad.tick.init(t.ick);
+    //t.ick();
 }
 
 
