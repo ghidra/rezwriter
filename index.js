@@ -3,13 +3,25 @@ t.canvas = {};
 t.context={};
 t.console={};
 t.yped="";
-t.setting={};//these are the letters that are animating
+t.setting=[];//these are the letters that are animating
 
 t.settings={
     'step':10,
     'steps':50,
     'delay':20
 };
+
+//this is a animating type setting object
+t.ype = function(alpha){
+    this.init(alpha);
+}
+t.ype.prototype.init=function(alpha){
+    this.a = alpha;
+    this.p= rad.vector2();
+}
+type.prototype.tick=function(){
+
+}
 
 /*var can, ctx, step = 10, steps = 50;
 delay = 20;
@@ -39,7 +51,9 @@ delay = 20;
 t.keycodes={"tab":9};
 t.yping=function(e){
 	//if(e.keyCode === this.keycodes["tab"]){
-    value = String.fromCharCode(e.keyCode)
+    value = String.fromCharCode(e.keyCode);
+    //lets add this to the t.setting object for animating
+    t.setting.push(new t.ype)
     t.yped+=value;
     //e.preventDefault();
     	//i might want to pass in different mouse position based on if it is going to overlap wrong
