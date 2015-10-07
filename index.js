@@ -19,8 +19,8 @@ t.ype.prototype.init=function(alpha){
     this.a = alpha;
     this.p= rad.vector2();
 }
-type.prototype.tick=function(){
-
+t.ype.prototype.tick=function(){
+    
 }
 
 /*var can, ctx, step = 10, steps = 50;
@@ -50,7 +50,7 @@ delay = 20;
 */
 t.keycodes={"tab":9};
 t.yping=function(e){
-	//if(e.keyCode === this.keycodes["tab"]){
+    //if(e.keyCode === this.keycodes["tab"]){
     value = String.fromCharCode(e.keyCode);
     //lets add this to the t.setting object for animating
     t.setting.push(new t.ype)
