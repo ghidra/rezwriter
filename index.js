@@ -8,7 +8,12 @@ t.setting=[];//these are the letters that are animating
 t.settings={
     'step':10,
     'steps':50,
-    'delay':20
+    'delay':20,
+    'font':{
+        'size':10,
+        'measure':'pt',
+        'name':'Helvetica'
+    }
 };
 
 //this is a animating type setting object
@@ -17,10 +22,10 @@ t.ype = function(alpha){
 }
 t.ype.prototype.init=function(alpha){
     this.a = alpha;
-    this.p= rad.vector2();
+    this.p= rad.vector2(10,10);
 }
 t.ype.prototype.tick=function(){
-    
+    t.context.fillText(this.a,this.p.x,this.p.y);
 }
 
 /*var can, ctx, step = 10, steps = 50;
@@ -53,16 +58,20 @@ t.yping=function(e){
     //if(e.keyCode === this.keycodes["tab"]){
     value = String.fromCharCode(e.keyCode);
     //lets add this to the t.setting object for animating
-    t.setting.push(new t.ype)
-    t.yped+=value;
+    t.setting.push(new t.ype(value))
+    //t.yped+=value;
     //e.preventDefault();
     	//i might want to pass in different mouse position based on if it is going to overlap wrong
     //}
-    t.console.innerHTML=t.yped;
+    //t.console.innerHTML=t.yped;
 }
 
 t.ick=function(args){
-    console.log("ticking");
+    t.context.clearRect(0,0,t.canvas.width,t.canvas.height);//clear the canvas
+    for (type in t.setting){
+	t.setting[type].tick();
+    }
+    //console.log("ticking");
     //requestAnimFrame(t.ick);
     //callback(args);
 }
@@ -72,6 +81,7 @@ function init(){
 
     t.canvas = document.getElementById("canvas");
     t.context = t.canvas.getContext("2d");
+    t.context.font = t.settings.font.size + t.settings.font.measure + ' ' + t.settings.font.name;
     t.console = document.getElementById("console");
     t.canvas.tabIndex = 1000;//this forces the canvas to get the keyboard events
     t.canvas.onkeydown = function(e){t.yping(e);};
