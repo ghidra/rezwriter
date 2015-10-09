@@ -12,8 +12,15 @@ t.settings={
     'font':{
         'size':10,
         'measure':'pt',
-        'name':'Helvetica'
-    }
+        'name':'Monaco'
+    },
+    'spacing':{
+        'vertical':11,
+        'horizontal':8,
+        'vertical_count':1,
+        'horizontal_count':0,
+        'horizontal_max':60
+    },
 };
 
 //this is a animating type setting object
@@ -22,7 +29,16 @@ t.ype = function(alpha){
 }
 t.ype.prototype.init=function(alpha){
     this.a = alpha;
-    this.p= rad.vector2(10,10);
+    this.p= new rad.vector2(t.settings.spacing.horizontal_count*t.settings.spacing.horizontal,t.settings.spacing.vertical_count*t.settings.spacing.vertical);
+
+    //we need to determine the position based on spacing
+    if(t.settings.spacing.horizontal_count>t.settings.spacing.horizontal_max){
+        t.settings.spacing.horizontal_count=0;
+        t.settings.spacing.vertical_count+=1;
+    }else{
+        t.settings.spacing.horizontal_count+=1;
+    }
+    
 }
 t.ype.prototype.tick=function(){
     t.context.fillText(this.a,this.p.x,this.p.y);
@@ -53,9 +69,11 @@ delay = 20;
                     var t = setTimeout('TextSmallToBig()', 20);
             }
 */
-t.keycodes={"tab":9};
+t.keycodes={"tab":9,"return":13,"delete":8};
 t.yping=function(e){
+    e.preventDefault();//keep keys from causing shortcuts to occur, like delete going back a page
     //if(e.keyCode === this.keycodes["tab"]){
+    console.log(e.keyCode);
     value = String.fromCharCode(e.keyCode);
     //lets add this to the t.setting object for animating
     t.setting.push(new t.ype(value))
@@ -84,15 +102,15 @@ function init(){
     t.context.font = t.settings.font.size + t.settings.font.measure + ' ' + t.settings.font.name;
     t.console = document.getElementById("console");
     t.canvas.tabIndex = 1000;//this forces the canvas to get the keyboard events
-    t.canvas.onkeydown = function(e){t.yping(e);};
+    t.canvas.onkeydown = function(e){
+        e.preventDefault();//this stops it from using delete as a back button
+        t.yping(e);
+    };
 
     //console.log(t.ick);
     rad.tick.init(t.ick);
     //t.ick();
 }
-
-
-
 
 window.onload=function(){
     init();    
