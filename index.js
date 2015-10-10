@@ -42,14 +42,15 @@ t.ype.prototype.init=function(alpha){
 t.ype.prototype.tick=function(){
     t.context.save();
     if(this.step<t.settings.steps){
-        //t.context.save();
-        //t.context.setTransform()
-        t.context.rotate(this.step*0.01);
-        //t.context.translate(this.p.x,this.p.y);
+        var o = this.p.neg();
+        t.context.translate(o.x,o.y);
+        t.context.rotate((t.settings.steps-this.step)*0.01);
+        t.context.translate(this.p.x,this.p.y);
         //t.context.restore();
         this.step+=1;
     }
     t.context.fillText(this.a,this.p.x,this.p.y);
+    //t.context.translate(this.p.x,this.p.y)
     t.context.restore();
 }
 
