@@ -7,6 +7,8 @@ t.setting=[];//these are the letters that are animating
 
 t.settings={
     'steps':50,
+    'angle':90,
+    'angle_variance':30,
     'font':{
         'size':10,
         'measure':'pt',
@@ -22,6 +24,7 @@ t.settings={
 };
 
 //this is a animating type setting object
+//--------------------------------------
 t.ype = function(alpha){
     this.init(alpha);
 }
@@ -42,43 +45,17 @@ t.ype.prototype.init=function(alpha){
 t.ype.prototype.tick=function(){
     t.context.save();
     if(this.step<t.settings.steps){
-        var o = this.p.neg();
-        t.context.translate(o.x,o.y);
-        t.context.rotate((t.settings.steps-this.step)*0.01);
         t.context.translate(this.p.x,this.p.y);
-        //t.context.restore();
+        t.context.rotate((t.settings.steps-this.step)*(rad.degtorad(t.settings.angle)/t.settings.steps));
+        t.context.fillText(this.a,0,0);
+        t.context.restore();
         this.step+=1;
+    }else{
+        t.context.fillText(this.a,this.p.x,this.p.y);
     }
-    t.context.fillText(this.a,this.p.x,this.p.y);
-    //t.context.translate(this.p.x,this.p.y)
     t.context.restore();
 }
-
-/*var can, ctx, step = 10, steps = 50;
-delay = 20;
-                 
-            function init() {
-                can = document.getElementById("MyCanvas");
-                ctx = can.getContext("2d");
-                ctx.fillStyle = "blue";
-                ctx.font = "10pt Helvetica";
-                ctx.textAlign = "center";
-                ctx.textBaseline = "middle";
-                TextSmallToBig();
-            }
-            function TextSmallToBig() {
-                step++;
-                ctx.clearRect(0, 0, can.width, can.height);
-                ctx.save();
-                ctx.rotate(step*0.2);
-                ctx.translate(can.width / 2, can.height / 2);
-                ctx.font = step + "pt Helvetica";
-                ctx.fillText("Welcome", 0, 0);
-                ctx.restore();
-                if (step < steps)
-                    var t = setTimeout('TextSmallToBig()', 20);
-            }
-*/
+//-------------------------------------
 t.keycodes={"tab":9,"return":13,"delete":8};
 t.yping=function(e){
     e.preventDefault();//keep keys from causing shortcuts to occur, like delete going back a page
@@ -96,20 +73,12 @@ t.yping=function(e){
 
 t.ick=function(args){
     t.context.clearRect(0,0,t.canvas.width,t.canvas.height);//clear the canvas
-    //t.context.save();//save the transform state at origin basically
     for (type in t.setting){
-        //t.context.save();//save the transform state at origin basically
 	t.setting[type].tick();
-        //t.context.restore();//restore it back to zero
     }
-    //console.log("ticking");
-    //requestAnimFrame(t.ick);
-    //callback(args);
 }
 
 function init(){
-	//draft.init();
-
     t.canvas = document.getElementById("canvas");
     t.context = t.canvas.getContext("2d");
     t.context.font = t.settings.font.size + t.settings.font.measure + ' ' + t.settings.font.name;
@@ -120,9 +89,8 @@ function init(){
         t.yping(e);
     };
     t.settings.spacing.horizontal_max = Math.floor((t.canvas.width-(t.settings.spacing.horizontal*2))/t.settings.spacing.horizontal)
-    //console.log(t.ick);
+
     rad.tick.init(t.ick);
-    //t.ick();
 }
 
 window.onload=function(){

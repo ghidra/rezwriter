@@ -1,5 +1,6 @@
 //COMPILE MODULES
 rad.includes.modules([
+        "math",
         "vector",
 	"tick"
 ]);
