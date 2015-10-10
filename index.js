@@ -6,9 +6,7 @@ t.yped="";
 t.setting=[];//these are the letters that are animating
 
 t.settings={
-    'step':10,
     'steps':50,
-    'delay':20,
     'font':{
         'size':10,
         'measure':'pt',
@@ -19,7 +17,7 @@ t.settings={
         'horizontal':8,
         'vertical_count':1,
         'horizontal_count':0,
-        'horizontal_max':60
+        'horizontal_max':1
     },
 };
 
@@ -29,7 +27,8 @@ t.ype = function(alpha){
 }
 t.ype.prototype.init=function(alpha){
     this.a = alpha;
-    this.p= new rad.vector2(t.settings.spacing.horizontal_count*t.settings.spacing.horizontal,t.settings.spacing.vertical_count*t.settings.spacing.vertical);
+    this.p = new rad.vector2(t.settings.spacing.horizontal_count*t.settings.spacing.horizontal,t.settings.spacing.vertical_count*t.settings.spacing.vertical);
+    this.step=0;
 
     //we need to determine the position based on spacing
     if(t.settings.spacing.horizontal_count>t.settings.spacing.horizontal_max){
@@ -38,10 +37,20 @@ t.ype.prototype.init=function(alpha){
     }else{
         t.settings.spacing.horizontal_count+=1;
     }
-    
+
 }
 t.ype.prototype.tick=function(){
+    t.context.save();
+    if(this.step<t.settings.steps){
+        //t.context.save();
+        //t.context.setTransform()
+        t.context.rotate(this.step*0.01);
+        //t.context.translate(this.p.x,this.p.y);
+        //t.context.restore();
+        this.step+=1;
+    }
     t.context.fillText(this.a,this.p.x,this.p.y);
+    t.context.restore();
 }
 
 /*var can, ctx, step = 10, steps = 50;
@@ -73,7 +82,7 @@ t.keycodes={"tab":9,"return":13,"delete":8};
 t.yping=function(e){
     e.preventDefault();//keep keys from causing shortcuts to occur, like delete going back a page
     //if(e.keyCode === this.keycodes["tab"]){
-    console.log(e.keyCode);
+    //console.log(e.keyCode);
     value = String.fromCharCode(e.keyCode);
     //lets add this to the t.setting object for animating
     t.setting.push(new t.ype(value))
@@ -86,8 +95,11 @@ t.yping=function(e){
 
 t.ick=function(args){
     t.context.clearRect(0,0,t.canvas.width,t.canvas.height);//clear the canvas
+    //t.context.save();//save the transform state at origin basically
     for (type in t.setting){
+        //t.context.save();//save the transform state at origin basically
 	t.setting[type].tick();
+        //t.context.restore();//restore it back to zero
     }
     //console.log("ticking");
     //requestAnimFrame(t.ick);
@@ -106,7 +118,7 @@ function init(){
         e.preventDefault();//this stops it from using delete as a back button
         t.yping(e);
     };
-
+    t.settings.spacing.horizontal_max = Math.floor((t.canvas.width-(t.settings.spacing.horizontal*2))/t.settings.spacing.horizontal)
     //console.log(t.ick);
     rad.tick.init(t.ick);
     //t.ick();
