@@ -52,10 +52,15 @@ t.ype.prototype.tick=function(){
         var off = vgap.multscalar(dgap);
         t.context.translate(this.p.x+off.x,this.p.y+off.y);
         t.context.rotate(gap*(rad.degtorad(t.settings.angle)/t.settings.steps));
+
+        t.context.font = (t.settings.font.size+(dgap*5)) + t.settings.font.measure + ' ' + t.settings.font.name;
+        t.context.fillStyle = "rgba(0,0,0,"+(1.0-dgap)+")"; 
         t.context.fillText(this.a,0,0);
         t.context.restore();
         this.step+=1;
     }else{
+        t.context.font = t.settings.font.size + t.settings.font.measure + ' ' + t.settings.font.name;
+        t.context.fillStyle = "rgba(0,0,0,1.0)";
         t.context.fillText(this.a,this.p.x,this.p.y);
     }
     t.context.restore();
