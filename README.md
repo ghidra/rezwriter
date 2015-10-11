@@ -12,7 +12,7 @@ github.com/ghidra/rad
 To Do:
 ---
 <ul>
-<li>delete key, remove characters<li>
+<li>delete key, remove characters</li>
 <li>return makes a new line</li>
 <li>full screen</li>
 <li>colors</li>
