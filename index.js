@@ -32,6 +32,7 @@ t.ype.prototype.init=function(alpha){
     this.a = alpha;
     this.p = new rad.vector2(t.settings.spacing.horizontal_count*t.settings.spacing.horizontal,t.settings.spacing.vertical_count*t.settings.spacing.vertical);
     this.step=0;
+    this.start_p = new rad.vector2( (Math.random()*100)-50, Math.random()*100 );
 
     //we need to determine the position based on spacing
     if(t.settings.spacing.horizontal_count>t.settings.spacing.horizontal_max){
@@ -44,9 +45,13 @@ t.ype.prototype.init=function(alpha){
 }
 t.ype.prototype.tick=function(){
     t.context.save();
-    if(this.step<t.settings.steps){
-        t.context.translate(this.p.x,this.p.y);
-        t.context.rotate((t.settings.steps-this.step)*(rad.degtorad(t.settings.angle)/t.settings.steps));
+    var gap = t.settings.steps-this.step;
+    if(gap>0){
+        var dgap = gap/t.settings.steps;
+        var vgap = new rad.vector2().clone(this.start_p);
+        var off = vgap.multscalar(dgap);
+        t.context.translate(this.p.x+off.x,this.p.y+off.y);
+        t.context.rotate(gap*(rad.degtorad(t.settings.angle)/t.settings.steps));
         t.context.fillText(this.a,0,0);
         t.context.restore();
         this.step+=1;
