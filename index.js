@@ -2,20 +2,20 @@ t={};
 t.canvas = {};
 t.context={};
 t.console={};
-t.yped="";
+t.yped=[];//the array to holdentire lines for optimization
 t.setting=[];//these are the letters that are animating
 
 t.settings={
-    'steps':50,
-    'angle':90,
-    'angle_variance':30,
+    'steps':30,
+    'angle':360,
+    'angle_variance':180,
     'font':{
         'size':10,
         'measure':'pt',
         'name':'Monaco'
     },
     'spacing':{
-        'vertical':11,
+        'vertical':14,
         'horizontal':8,
         'vertical_count':1,
         'horizontal_count':0,
@@ -33,6 +33,7 @@ t.ype.prototype.init=function(alpha){
     this.p = new rad.vector2(t.settings.spacing.horizontal_count*t.settings.spacing.horizontal,t.settings.spacing.vertical_count*t.settings.spacing.vertical);
     this.step=0;
     this.start_p = new rad.vector2( (Math.random()*100)-50, Math.random()*100 );
+    this.line = t.settings.spacing.vertical_count;
 
     //we need to determine the position based on spacing
     if(t.settings.spacing.horizontal_count>t.settings.spacing.horizontal_max){
@@ -59,9 +60,17 @@ t.ype.prototype.tick=function(){
         t.context.restore();
         this.step+=1;
     }else{
-        t.context.font = t.settings.font.size + t.settings.font.measure + ' ' + t.settings.font.name;
-        t.context.fillStyle = "rgba(0,0,0,1.0)";
-        t.context.fillText(this.a,this.p.x,this.p.y);
+        //add it to the t.yped array
+        if( rad.totype(t.yped[this.line]) == 'undefined' ){
+            t.yped[this.line]="";
+        } 
+        t.yped[this.line]+=this.a;
+        //now remove it from the t.setting array
+        var i = t.setting.indexOf(this);
+        t.setting.splice(i,1);
+        //t.context.font = t.settings.font.size + t.settings.font.measure + ' ' + t.settings.font.name;
+        //t.context.fillStyle = "rgba(0,0,0,1.0)";
+        //t.context.fillText(this.a,this.p.x,this.p.y);
     }
     t.context.restore();
 }
@@ -85,6 +94,14 @@ t.ick=function(args){
     t.context.clearRect(0,0,t.canvas.width,t.canvas.height);//clear the canvas
     for (type in t.setting){
 	t.setting[type].tick();
+    }
+    for (i=0; i<t.yped.length; i++){
+        t.context.save();
+        t.context.translate(0,t.settings.spacing.vertical*i);
+        t.context.font = t.settings.font.size + t.settings.font.measure + ' ' + t.settings.font.name;
+        t.context.fillStyle = "rgba(0,0,0,1.0";
+        t.context.fillText(t.yped[i],0,0);
+        t.context.restore();
     }
 }
 
