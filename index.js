@@ -42,7 +42,6 @@ t.ype.prototype.init=function(alpha){
     }else{
         t.settings.spacing.horizontal_count+=1;
     }
-
 }
 t.ype.prototype.tick=function(){
     t.context.save();
@@ -106,11 +105,23 @@ t.ick=function(args){
 }
 
 function init(){
+    //I want to get the width of the body to make this fucker full screen
+    var size = rad.bodysize();
+
     t.canvas = document.getElementById("canvas");
+    t.canvas.tabIndex = 1000;//this forces the canvas to get the keyboard events
+    t.canvas.width=size.x;
+    t.canvas.height=size.y*0.9;
+
+    t.console = document.getElementById("console");
+    t.console.width=size.x;
+    t.console.height=size.y*0.1;
+    //i need a window resize event that will update these values
+    //as well i need to account for the autmatic padding that ccurs
+
     t.context = t.canvas.getContext("2d");
     t.context.font = t.settings.font.size + t.settings.font.measure + ' ' + t.settings.font.name;
-    t.console = document.getElementById("console");
-    t.canvas.tabIndex = 1000;//this forces the canvas to get the keyboard events
+    
     t.canvas.onkeydown = function(e){
         e.preventDefault();//this stops it from using delete as a back button
         t.yping(e);

@@ -1,10 +1,11 @@
 //COMPILE MODULES
 rad.includes.modules([
-        "math",
-        "vector",
-	"tick"
+    "math",
+    "vector",
+    "dom",
+    "tick"
 ]);
 //COMPILE SOURCES
 rad.includes.source([
-	"index.js"
+    "index.js"
 ]);
